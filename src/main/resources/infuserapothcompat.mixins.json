@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.digitalfeonix.infuserapothcompat.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "infuserapothcompat.refmap.json",
+  "mixins": [
+    "InfuserMenuMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}
