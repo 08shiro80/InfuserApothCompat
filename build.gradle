@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = '1.1.0'
+version = '1.2.0'
 group = 'com.digitalfeonix.infuserapothcompat'
 
 base {
@@ -69,6 +69,7 @@ dependencies {
 jar {
     exclude 'dev/shadowsoffire/**'
     exclude 'fuzs/**'
+    exclude 'snownee/**'
 
     manifest {
         attributes([
