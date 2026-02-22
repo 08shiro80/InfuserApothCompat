@@ -1,0 +1,52 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "infuserapothcompat"
+version = "1.3.0"
+displayName = "Infuser Apotheosis Compat"
+authors = "DigitalFeonix"
+description = '''
+Enhanced compatibility between Enchanting Infuser and Apotheosis.
+Makes Apotheosis bookshelves provide their full Eterna bonus to the Enchanting Infuser.
+Supports infusion recipes and Jade tooltip integration.
+'''
+
+[[mixins]]
+config = "infuserapothcompat.mixins.json"
+
+[[dependencies.infuserapothcompat]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.infuserapothcompat]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.22)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.infuserapothcompat]]
+modId = "apothic_enchanting"
+type = "required"
+versionRange = "[1.5.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.infuserapothcompat]]
+modId = "enchantinginfuser"
+type = "required"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.infuserapothcompat]]
+modId = "jade"
+type = "optional"
+versionRange = "[15.0.0,)"
+ordering = "AFTER"
+side = "CLIENT"

@@ -9,15 +9,15 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
 import java.util.WeakHashMap;
 
-@Mod.EventBusSubscriber(modid = InfuserApothCompat.MODID)
+@EventBusSubscriber(modid = InfuserApothCompat.MODID)
 public class InfuserContainerHandler {
 
     private static final WeakHashMap<AbstractContainerMenu, ItemStack> lastSeenItems = new WeakHashMap<>();
@@ -44,15 +44,14 @@ public class InfuserContainerHandler {
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
-        if (event.player.level().isClientSide()) return;
+    public static void onPlayerTick(PlayerTickEvent.Post event) {
+        Player player = event.getEntity();
+        if (player.level().isClientSide()) return;
         if (!InfusionHelper.isInfusionAvailable()) return;
 
         init();
         if (infuserMenuClass == null) return;
 
-        Player player = event.player;
         AbstractContainerMenu menu = player.containerMenu;
 
         if (menu == null || !infuserMenuClass.isInstance(menu)) return;
@@ -67,7 +66,7 @@ public class InfuserContainerHandler {
                 return;
             }
 
-            if (lastItem != null && ItemStack.isSameItemSameTags(currentItem, lastItem)) {
+            if (lastItem != null && ItemStack.isSameItemSameComponents(currentItem, lastItem)) {
                 return;
             }
 

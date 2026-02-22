@@ -1,69 +1,75 @@
 plugins {
-    id 'eclipse'
-    id 'idea'
+    id 'java-library'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.spongepowered.mixin' version '0.7.+'
+    id 'net.neoforged.moddev' version '2.0.80'
 }
 
-version = '1.2.0'
+version = '1.3.0'
 group = 'com.digitalfeonix.infuserapothcompat'
 
 base {
     archivesName = 'infuserapothcompat'
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(javaVersion as int)
 
-mixin {
-    add sourceSets.main, "infuserapothcompat.refmap.json"
-    config "infuserapothcompat.mixins.json"
-}
+neoForge {
+    version = forgeVersion
 
-minecraft {
-    mappings channel: 'official', version: '1.20.1'
+    parchment {
+        mappingsVersion = parchmentVersion
+        minecraftVersion = mcVersion
+    }
 
     runs {
         client {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            mods {
-                infuserapothcompat {
-                    source sourceSets.main
-                }
-            }
+            client()
         }
         server {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            mods {
-                infuserapothcompat {
-                    source sourceSets.main
-                }
-            }
+            server()
+        }
+    }
+
+    mods {
+        infuserapothcompat {
+            sourceSet sourceSets.main
         }
     }
 }
 
 repositories {
-    maven { url = 'https://maven.minecraftforge.net/' }
-    maven { url = 'https://repo.spongepowered.org/maven' }
+    mavenLocal()
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
+    maven {
+        name = 'Shadows Maven'
+        url = 'https://maven.shadowsoffire.dev/releases'
+    }
+    maven {
+        name = 'CurseMaven'
+        url = 'https://cursemaven.com'
+        content { includeGroup 'curse.maven' }
+    }
+    maven {
+        name = 'BlameJared'
+        url = 'https://maven.blamejared.com'
+    }
     mavenCentral()
-    flatDir { dirs 'libs' }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'
+    implementation "dev.shadowsoffire:ApothicEnchanting:${mcVersion}-${apothicEnchantingVersion}"
+    implementation "dev.shadowsoffire:Placebo:${mcVersion}-${placeboVersion}"
 
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly "curse.maven:enchanting-infuser-551151:7354838"
 
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    compileOnly "snownee.jade:Jade-NeoForge:${mcVersion}-${jadeVersion}"
+
+    if (project.hasProperty('mixinVersion')) {
+        annotationProcessor "org.spongepowered:mixin:${mixinVersion}:processor"
+    }
 }
 
 jar {
@@ -73,16 +79,14 @@ jar {
 
     manifest {
         attributes([
-            "Specification-Title": "infuserapothcompat",
-            "Specification-Vendor": "DigitalFeonix",
-            "Specification-Version": "1",
-            "Implementation-Title": project.name,
-            "Implementation-Version": project.jar.archiveVersion,
-            "Implementation-Vendor": "DigitalFeonix",
+            "Specification-Title"     : "infuserapothcompat",
+            "Specification-Vendor"    : "DigitalFeonix",
+            "Specification-Version"   : "1",
+            "Implementation-Title"    : project.name,
+            "Implementation-Version"  : project.jar.archiveVersion,
+            "Implementation-Vendor"   : "DigitalFeonix",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "infuserapothcompat.mixins.json"
+            "MixinConfigs"            : "infuserapothcompat.mixins.json"
         ])
     }
 }
-
-jar.finalizedBy('reobfJar')

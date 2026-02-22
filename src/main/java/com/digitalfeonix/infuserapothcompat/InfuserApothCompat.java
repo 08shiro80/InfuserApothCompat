@@ -1,10 +1,10 @@
 package com.digitalfeonix.infuserapothcompat;
 
-import fuzs.enchantinginfuser.api.EnchantingInfuserAPI;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import fuzs.enchantinginfuser.world.item.enchantment.EnchantingBehavior;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,18 +13,18 @@ public class InfuserApothCompat {
     public static final String MODID = "infuserapothcompat";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-    public InfuserApothCompat() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonSetup);
+    public InfuserApothCompat(IEventBus modEventBus) {
+        modEventBus.addListener(this::onCommonSetup);
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            if (ModList.get().isLoaded("apotheosis") && ModList.get().isLoaded("enchantinginfuser")) {
+            if (ModList.get().isLoaded("apothic_enchanting") && ModList.get().isLoaded("enchantinginfuser")) {
                 try {
-                    EnchantingInfuserAPI.setEnchantStatsProvider(EnhancedApothStatsProvider.INSTANCE);
+                    EnchantingBehavior.set(EnhancedApothEnchantingBehavior.INSTANCE);
                     LOGGER.info("InfuserApothCompat: Enhanced Apotheosis integration enabled");
                 } catch (Exception e) {
-                    LOGGER.error("InfuserApothCompat: Failed to register enhanced stats provider", e);
+                    LOGGER.error("InfuserApothCompat: Failed to register enhanced enchanting behavior", e);
                 }
             }
         });

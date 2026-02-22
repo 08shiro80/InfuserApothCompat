@@ -1,7 +1,7 @@
 package com.digitalfeonix.infuserapothcompat.compat;
 
 import com.digitalfeonix.infuserapothcompat.InfuserApothCompat;
-import dev.shadowsoffire.apotheosis.ench.table.EnchantingStatRegistry;
+import dev.shadowsoffire.apothic_enchanting.table.EnchantingStatRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -16,7 +16,7 @@ import snownee.jade.api.config.IPluginConfig;
 @WailaPlugin
 public class JadeInfuserPlugin implements IWailaPlugin, IBlockComponentProvider {
 
-    private static final ResourceLocation UID = new ResourceLocation(InfuserApothCompat.MODID, "infuser_stats");
+    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(InfuserApothCompat.MODID, "infuser_stats");
     private static Class<?> infuserBlockClass = null;
 
     @Override
@@ -48,7 +48,7 @@ public class JadeInfuserPlugin implements IWailaPlugin, IBlockComponentProvider 
         float maxEterna = 15.0F;
 
         try {
-            for (BlockPos offset : net.minecraft.world.level.block.EnchantmentTableBlock.BOOKSHELF_OFFSETS) {
+            for (BlockPos offset : net.minecraft.world.level.block.EnchantingTableBlock.BOOKSHELF_OFFSETS) {
                 if (!isValidBookShelf(level, tablePos, offset)) {
                     continue;
                 }
