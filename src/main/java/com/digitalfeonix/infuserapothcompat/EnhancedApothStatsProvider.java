@@ -35,7 +35,15 @@ public final class EnhancedApothStatsProvider implements EnchantStatsProvider {
 
     @Override
     public float getEnchantPowerBonus(BlockState state, Level level, BlockPos pos) {
-        return EnchantingStatRegistry.getEterna(state, level, pos);
+        float eterna = EnchantingStatRegistry.getEterna(state, level, pos);
+        if (eterna != 0F) return eterna;
+        float quanta = EnchantingStatRegistry.getQuanta(state, level, pos);
+        float arcana = EnchantingStatRegistry.getArcana(state, level, pos);
+        float rectification = EnchantingStatRegistry.getQuantaRectification(state, level, pos);
+        if (quanta > 0F || arcana > 0F || rectification > 0F) {
+            return (quanta + arcana) * 0.1F + rectification * 0.5F;
+        }
+        return 0F;
     }
 
     @Override
@@ -81,21 +89,33 @@ public final class EnhancedApothStatsProvider implements EnchantStatsProvider {
 
     @Override
     public boolean isTreasureOnly(Enchantment enchantment) {
+        if (TreasureShelfHelper.treasureShelfPresent) {
+            return false;
+        }
         return EnchModule.getEnchInfo(enchantment).isTreasure();
     }
 
     @Override
     public boolean isCurse(Enchantment enchantment) {
+        if (InfuserApothConfig.ALLOW_CURSED_ENCHANTMENTS.get()) {
+            return false;
+        }
         return enchantment.isCurse();
     }
 
     @Override
     public boolean isTradeable(Enchantment enchantment) {
+        if (TreasureShelfHelper.treasureShelfPresent) {
+            return true;
+        }
         return EnchModule.getEnchInfo(enchantment).isTradeable();
     }
 
     @Override
     public boolean isDiscoverable(Enchantment enchantment) {
+        if (TreasureShelfHelper.treasureShelfPresent) {
+            return true;
+        }
         return EnchModule.getEnchInfo(enchantment).isDiscoverable();
     }
 }
