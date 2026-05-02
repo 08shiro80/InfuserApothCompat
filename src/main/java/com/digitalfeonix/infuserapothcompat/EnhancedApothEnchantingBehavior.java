@@ -30,7 +30,14 @@ public final class EnhancedApothEnchantingBehavior implements EnchantingBehavior
 
     @Override
     public float getEnchantmentPower(BlockState state, Level level, BlockPos pos) {
-        return EnchantingStatRegistry.getEterna(state, level, pos);
+        float eterna = EnchantingStatRegistry.getEterna(state, level, pos);
+        if (eterna != 0F) return eterna;
+        float quanta = EnchantingStatRegistry.getQuanta(state, level, pos);
+        float arcana = EnchantingStatRegistry.getArcana(state, level, pos);
+        if (quanta > 0F || arcana > 0F) {
+            return (quanta + arcana) * 0.1F;
+        }
+        return 0F;
     }
 
     @Override
