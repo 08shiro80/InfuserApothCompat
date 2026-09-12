@@ -47,6 +47,7 @@ public class InfuserContainerHandler {
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
         if (player.level().isClientSide()) return;
+        if (!InfuserApothCompat.enchModuleEnabled) return;
         if (!InfusionHelper.isInfusionAvailable()) return;
 
         init();

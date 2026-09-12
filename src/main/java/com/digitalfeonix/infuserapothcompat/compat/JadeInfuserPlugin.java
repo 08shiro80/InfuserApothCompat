@@ -33,6 +33,10 @@ public class JadeInfuserPlugin implements IWailaPlugin, IBlockComponentProvider 
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
+        if (!InfuserApothCompat.enchModuleEnabled) {
+            return;
+        }
+
         Block block = accessor.getBlockState().getBlock();
 
         if (!isInfuserBlock(block)) {
@@ -55,10 +59,12 @@ public class JadeInfuserPlugin implements IWailaPlugin, IBlockComponentProvider 
                 BlockPos shelfPos = tablePos.offset(offset);
                 BlockState shelfState = level.getBlockState(shelfPos);
                 float eterna = EnchantingStatRegistry.getEterna(shelfState, level, shelfPos);
-                if (eterna > 0) {
+                float quanta = EnchantingStatRegistry.getQuanta(shelfState, level, shelfPos);
+                float arcana = EnchantingStatRegistry.getArcana(shelfState, level, shelfPos);
+                if (eterna != 0 || quanta != 0 || arcana != 0) {
                     totalEterna += eterna;
-                    totalQuanta += EnchantingStatRegistry.getQuanta(shelfState, level, shelfPos);
-                    totalArcana += EnchantingStatRegistry.getArcana(shelfState, level, shelfPos);
+                    totalQuanta += quanta;
+                    totalArcana += arcana;
                     float blockMaxEterna = EnchantingStatRegistry.getMaxEterna(shelfState, level, shelfPos);
                     if (blockMaxEterna > maxEterna) {
                         maxEterna = blockMaxEterna;
@@ -76,14 +82,14 @@ public class JadeInfuserPlugin implements IWailaPlugin, IBlockComponentProvider 
             .append(Component.literal(String.format("%.1f / %.1f", totalEterna, maxEterna))
                 .withStyle(ChatFormatting.GREEN)));
 
-        if (totalQuanta > 0) {
+        if (totalQuanta != 0) {
             tooltip.add(Component.translatable("tooltip.infuserapothcompat.quanta")
                 .append(": ")
                 .append(Component.literal(String.format("%.1f%%", totalQuanta))
                     .withStyle(ChatFormatting.RED)));
         }
 
-        if (totalArcana > 0) {
+        if (totalArcana != 0) {
             tooltip.add(Component.translatable("tooltip.infuserapothcompat.arcana")
                 .append(": ")
                 .append(Component.literal(String.format("%.1f%%", totalArcana))
@@ -95,7 +101,9 @@ public class JadeInfuserPlugin implements IWailaPlugin, IBlockComponentProvider 
         BlockPos shelfPos = tablePos.offset(offset);
         BlockState shelfState = level.getBlockState(shelfPos);
         float eterna = EnchantingStatRegistry.getEterna(shelfState, level, shelfPos);
-        if (eterna <= 0) {
+        float quanta = EnchantingStatRegistry.getQuanta(shelfState, level, shelfPos);
+        float arcana = EnchantingStatRegistry.getArcana(shelfState, level, shelfPos);
+        if (eterna == 0 && quanta == 0 && arcana == 0) {
             return false;
         }
         BlockPos inBetweenPos = tablePos.offset(offset.getX() / 2, offset.getY(), offset.getZ() / 2);

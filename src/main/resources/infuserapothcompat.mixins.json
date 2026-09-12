@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "com.digitalfeonix.infuserapothcompat.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["InfuserMenuMixin"],
+  "mixins": ["InfuserMenuMixin", "ModEnchantmentHelperMixin", "EnchantmentPowerHelperMixin"],
   "client": [],
   "injectors": {"defaultRequire": 0}
 }

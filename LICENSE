@@ -1,21 +1,88 @@
-MIT License
+DLB Non-Commercial License
+Version 1.0 — 2026
 
-Copyright (c) 2024
+Copyright (c) 2026 kasch_x (DLB). All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This license governs use of the accompanying software ("the Mod"). By using,
+copying, distributing, or modifying the Mod, you accept this license. If you do
+not accept it, you may not use the Mod.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+--------------------------------------------------------------------------------
+1. DEFINITIONS
+--------------------------------------------------------------------------------
+"You" means the individual or entity exercising rights under this license.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+"Author" means kasch_x (also known as DLB), the copyright holder.
+
+"Non-Commercial" means not primarily intended for or directed toward commercial
+advantage or monetary compensation. Selling the Mod, charging for access to it,
+placing it behind a paywall, or monetizing its download (for example through paid
+downloads, ad-gated links, or subscription services that include the Mod) is
+NOT Non-Commercial.
+
+"Modpack" means a curated collection of multiple mods distributed together for
+use with Minecraft.
+
+"Attribution" means clearly crediting the Author by name and providing a link to
+the Author's original distribution page for the Mod, where practical.
+
+--------------------------------------------------------------------------------
+2. GRANT OF RIGHTS
+--------------------------------------------------------------------------------
+Subject to the conditions and restrictions below, the Author grants You a
+worldwide, royalty-free, non-exclusive license to:
+
+(a) USE the Mod for any Non-Commercial purpose, privately or publicly;
+
+(b) REDISTRIBUTE the Mod, unmodified and in its original packaged form, only as
+    part of a Modpack, provided the distribution is Non-Commercial and includes
+    Attribution. Redistributing the Mod on its own as a stand-alone re-upload
+    (outside of a Modpack) is NOT permitted without the Author's prior written
+    permission;
+
+(c) MODIFY the Mod and publish the modified version ("a Fork"), provided the
+    Fork is Non-Commercial, includes Attribution, prominently states that it has
+    been modified and is not the original, and is itself licensed under these
+    same terms.
+
+--------------------------------------------------------------------------------
+3. RESTRICTIONS
+--------------------------------------------------------------------------------
+(a) NO COMMERCIAL USE. You may not sell the Mod or any Fork, charge for it, or
+    use it or any Fork for commercial advantage or monetary compensation.
+
+(b) NO PAID OR AD-GATED DISTRIBUTION. You may not distribute the Mod or a Fork
+    through paid downloads, ad-gated or link-shortener monetization, or any
+    service that derives revenue from the download of the Mod.
+
+(c) NO STAND-ALONE RE-UPLOAD. Except as allowed in Section 2(b) and 2(c), You
+    may not re-host or re-upload the Mod without the Author's prior written
+    permission.
+
+(d) NO REMOVAL OF NOTICES. You may not remove or obscure this license, the
+    copyright notice, or Author attribution.
+
+The Author may grant exceptions to any restriction in writing.
+
+--------------------------------------------------------------------------------
+4. THIRD-PARTY COMPONENTS
+--------------------------------------------------------------------------------
+The Mod may bundle third-party libraries that remain under their own licenses
+(for example, Byte Buddy under the Apache License 2.0). This license does not
+apply to those components; their respective licenses govern them.
+
+--------------------------------------------------------------------------------
+5. DISCLAIMER OF WARRANTY AND LIABILITY
+--------------------------------------------------------------------------------
+THE MOD IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE
+FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE MOD OR THE
+USE OR OTHER DEALINGS IN THE MOD.
+
+--------------------------------------------------------------------------------
+6. TERMINATION
+--------------------------------------------------------------------------------
+Any breach of this license automatically terminates the rights granted to You
+under Section 2. Upon termination You must cease distribution of the Mod.

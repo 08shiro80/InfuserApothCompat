@@ -31,3 +31,7 @@ CLAUDE.md
 
 # Dependency JARs (add your own)
 libs/
+
+# Debug / logs
+debug.log
+*.log

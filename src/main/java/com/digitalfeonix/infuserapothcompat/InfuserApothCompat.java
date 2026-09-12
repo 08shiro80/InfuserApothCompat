@@ -1,9 +1,10 @@
 package com.digitalfeonix.infuserapothcompat;
 
-import fuzs.enchantinginfuser.world.item.enchantment.EnchantingBehavior;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,20 +13,21 @@ import org.slf4j.LoggerFactory;
 public class InfuserApothCompat {
     public static final String MODID = "infuserapothcompat";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+    public static boolean enchModuleEnabled = false;
 
-    public InfuserApothCompat(IEventBus modEventBus) {
+    public InfuserApothCompat(IEventBus modEventBus, ModContainer modContainer) {
+        modContainer.registerConfig(ModConfig.Type.COMMON, InfuserApothConfig.CONFIG_SPEC);
         modEventBus.addListener(this::onCommonSetup);
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             if (ModList.get().isLoaded("apothic_enchanting") && ModList.get().isLoaded("enchantinginfuser")) {
-                try {
-                    EnchantingBehavior.set(EnhancedApothEnchantingBehavior.INSTANCE);
-                    LOGGER.info("InfuserApothCompat: Enhanced Apotheosis integration enabled");
-                } catch (Exception e) {
-                    LOGGER.error("InfuserApothCompat: Failed to register enhanced enchanting behavior", e);
-                }
+                // Enchanting Infuser already installs a correct ApotheosisEnchantingBehavior for the
+                // infuser power/cost scaling; we only add infusion recipes, treasure/curse shelves and
+                // the Jade tooltip on top. enchModuleEnabled gates those extras.
+                enchModuleEnabled = true;
+                LOGGER.info("InfuserApothCompat: Apotheosis integration enabled");
             }
         });
     }

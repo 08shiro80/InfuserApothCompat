@@ -1,17 +1,24 @@
 package com.digitalfeonix.infuserapothcompat.mixin;
 
 import com.digitalfeonix.infuserapothcompat.InfusionHelper;
+import com.digitalfeonix.infuserapothcompat.TreasureShelfHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
@@ -25,6 +32,44 @@ public abstract class InfuserMenuMixin extends AbstractContainerMenu {
 
     protected InfuserMenuMixin(MenuType<?> menuType, int containerId) {
         super(menuType, containerId);
+    }
+
+    @Inject(method = "slotsChanged", at = @At("HEAD"))
+    private void infuserapothcompat$scanTreasureShelf(Container container, CallbackInfo ci) {
+        if (container == this.enchantSlots) {
+            levelAccess.execute((level, pos) -> {
+                TreasureShelfHelper.scanForTreasureShelf(level, pos);
+            });
+        }
+    }
+
+    @Inject(method = "slotsChanged", at = @At("RETURN"))
+    private void infuserapothcompat$resetTreasureShelf(Container container, CallbackInfo ci) {
+        TreasureShelfHelper.treasureShelfPresent = false;
+    }
+
+    @Inject(method = "initializeEnchantmentMaps", at = @At("HEAD"))
+    private void infuserapothcompat$clientScanTreasureShelf(Level level, CallbackInfo ci) {
+        if (level.isClientSide) {
+            BlockPos playerPos = this.player.blockPosition();
+            for (BlockPos pos : BlockPos.betweenClosed(
+                    playerPos.offset(-8, -4, -8),
+                    playerPos.offset(8, 4, 8))) {
+                BlockState state = level.getBlockState(pos);
+                ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+                if (blockId.getPath().contains("infuser") && blockId.getNamespace().equals("enchantinginfuser")) {
+                    TreasureShelfHelper.scanForTreasureShelf(level, pos);
+                    if (TreasureShelfHelper.treasureShelfPresent) return;
+                }
+            }
+        }
+    }
+
+    @Inject(method = "initializeEnchantmentMaps", at = @At("RETURN"))
+    private void infuserapothcompat$clientResetTreasureShelf(Level level, CallbackInfo ci) {
+        if (level.isClientSide) {
+            TreasureShelfHelper.treasureShelfPresent = false;
+        }
     }
 
     @Inject(method = "mayEnchantStack", at = @At("HEAD"), cancellable = true)

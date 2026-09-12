@@ -1,12 +1,12 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-license = "MIT"
+license = "DLB Non-Commercial 1.0 (see LICENSE)"
 
 [[mods]]
 modId = "infuserapothcompat"
-version = "1.3.0"
+version = "1.3.5"
 displayName = "Infuser Apotheosis Compat"
-authors = "DigitalFeonix"
+authors = "Kasch_X"
 description = '''
 Enhanced compatibility between Enchanting Infuser and Apotheosis.
 Makes Apotheosis bookshelves provide their full Eterna bonus to the Enchanting Infuser.
