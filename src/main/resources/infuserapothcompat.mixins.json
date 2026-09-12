@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.digitalfeonix.infuserapothcompat.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": ["InfuserMenuMixin", "ModEnchantmentHelperMixin", "EnchantmentPowerHelperMixin"],
+  "client": [],
+  "injectors": {"defaultRequire": 0}
+}

@@ -1,0 +1,77 @@
+plugins {
+    id 'java'
+    id 'net.neoforged.moddev' version '2.0.141'
+}
+
+version = project.mod_version
+group = project.mod_group
+base.archivesName = project.mod_id
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Shadows of Fire'
+        url = 'https://maven.shadowsoffire.dev/releases'
+    }
+    maven {
+        name = 'BlameJared'
+        url = 'https://maven.blamejared.com'
+    }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
+    maven {
+        name = 'CurseMaven'
+        url = 'https://www.cursemaven.com'
+        content { includeGroup 'curse.maven' }
+    }
+}
+
+neoForge {
+    version = project.neoforge_version
+
+    runs {
+        client { client() }
+        server { server() }
+    }
+
+    mods {
+        "${project.mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    // Apotheosis enchanting: the mod reads EnchantingStatRegistry / InfusionRecipe directly.
+    compileOnly "dev.shadowsoffire:ApothicEnchanting:${project.apothic_enchanting_version}"
+    compileOnly "dev.shadowsoffire:Placebo:${project.placebo_version}"
+    // Jade: JadeInfuserPlugin implements the snownee.jade.api surface (optional at runtime).
+    compileOnly "maven.modrinth:jade:${project.jade_version}"
+    // JEI: InfuserJeiPlugin registers the infuser as a catalyst for Apotheosis' infusion category.
+    compileOnly "mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}"
+    // Enchanting Infuser: needed to implement its EnchantingBehavior extension point
+    // (ApotheosisEnchantingBehavior). Mixin targets + reflection stay string-based.
+    compileOnly files('libs/EnchantingInfuser-26.1.0-neoforge.jar')
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replacements = [
+        mod_id           : project.mod_id,
+        mod_version      : project.mod_version,
+        minecraft_version: project.minecraft_version,
+        neoforge_version : project.neoforge_version,
+    ]
+    inputs.properties replacements
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand replacements
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
