@@ -4,6 +4,6 @@
   "package": "com.digitalfeonix.infuserapothcompat.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": ["InfuserMenuMixin", "ModEnchantmentHelperMixin", "EnchantmentPowerHelperMixin"],
-  "client": [],
+  "client": ["client.InfuserScreenMixin"],
   "injectors": {"defaultRequire": 0}
 }
