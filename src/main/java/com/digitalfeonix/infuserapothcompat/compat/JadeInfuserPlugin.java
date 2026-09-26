@@ -23,7 +23,7 @@ public class JadeInfuserPlugin implements IWailaPlugin, IBlockComponentProvider 
     public void registerClient(IWailaClientRegistration registration) {
         try {
             infuserBlockClass = Class.forName("fuzs.enchantinginfuser.world.level.block.InfuserBlock");
-            registration.registerBlockComponent(this, (Class<? extends Block>) infuserBlockClass);
+            registration.registerBlockComponent(this, infuserBlockClass.asSubclass(Block.class));
             InfuserApothCompat.LOGGER.info("JadeInfuserPlugin: Registered for InfuserBlock class");
         } catch (ClassNotFoundException e) {
             InfuserApothCompat.LOGGER.warn("JadeInfuserPlugin: InfuserBlock class not found, registering for all blocks");
@@ -53,7 +53,8 @@ public class JadeInfuserPlugin implements IWailaPlugin, IBlockComponentProvider 
 
         try {
             for (BlockPos offset : net.minecraft.world.level.block.EnchantingTableBlock.BOOKSHELF_OFFSETS) {
-                if (!isValidBookShelf(level, tablePos, offset)) {
+                BlockPos betweenPos = tablePos.offset(offset.getX() / 2, offset.getY(), offset.getZ() / 2);
+                if (level.getBlockState(betweenPos).getCollisionShape(level, betweenPos) == Shapes.block()) {
                     continue;
                 }
                 BlockPos shelfPos = tablePos.offset(offset);
@@ -95,19 +96,6 @@ public class JadeInfuserPlugin implements IWailaPlugin, IBlockComponentProvider 
                 .append(Component.literal(String.format("%.1f%%", totalArcana))
                     .withStyle(ChatFormatting.DARK_PURPLE)));
         }
-    }
-
-    private boolean isValidBookShelf(Level level, BlockPos tablePos, BlockPos offset) {
-        BlockPos shelfPos = tablePos.offset(offset);
-        BlockState shelfState = level.getBlockState(shelfPos);
-        float eterna = EnchantingStatRegistry.getEterna(shelfState, level, shelfPos);
-        float quanta = EnchantingStatRegistry.getQuanta(shelfState, level, shelfPos);
-        float arcana = EnchantingStatRegistry.getArcana(shelfState, level, shelfPos);
-        if (eterna == 0 && quanta == 0 && arcana == 0) {
-            return false;
-        }
-        BlockPos inBetweenPos = tablePos.offset(offset.getX() / 2, offset.getY(), offset.getZ() / 2);
-        return level.getBlockState(inBetweenPos).getCollisionShape(level, inBetweenPos) != Shapes.block();
     }
 
     private boolean isInfuserBlock(Block block) {

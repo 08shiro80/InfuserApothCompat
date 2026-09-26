@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.6
+
+### Fixes
+- **Bookshelves behind a non-solid block now count toward the infuser's power.** A bookshelf separated from the infuser by a glass pane, fence, slab, etc. was ignored, so the infuser (and the Jade tooltip) showed less Eterna/Quanta/Arcana than the Enchanting Infuser itself does. They are now counted the same way, and the Jade tooltip matches the power the infuser actually uses.
+- **Fixed the enchantment list disappearing after viewing a JEI recipe.** Pressing "U" (uses) on an item in the infuser and returning to the GUI cleared the whole enchantment list until the GUI was reopened. The list now stays.
+
 ## 1.3.5
 
 ### Fixes

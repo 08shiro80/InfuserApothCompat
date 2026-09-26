@@ -1,6 +1,5 @@
 package com.digitalfeonix.infuserapothcompat;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -8,7 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -39,7 +37,7 @@ public class InfuserContainerHandler {
 
             InfuserApothCompat.LOGGER.info("InfuserContainerHandler initialized successfully");
         } catch (Exception e) {
-            InfuserApothCompat.LOGGER.debug("Could not initialize InfuserContainerHandler: {}", e.getMessage());
+            InfuserApothCompat.LOGGER.warn("Could not initialize InfuserContainerHandler: {}", e.getMessage());
         }
     }
 
@@ -74,7 +72,6 @@ public class InfuserContainerHandler {
             lastSeenItems.put(menu, currentItem.copy());
 
             ContainerLevelAccess levelAccess = (ContainerLevelAccess) levelAccessField.get(menu);
-            Level level = player.level();
 
             final Container finalEnchantSlots = enchantSlots;
             final ItemStack finalCurrentItem = currentItem;
